@@ -71,21 +71,13 @@ def transform(df, *args, **kwargs):
     rate_code_dim['rate_code_name'] = rate_code_dim['RatecodeID'].map(rate_code_type)
     rate_code_dim = rate_code_dim[['rate_code_id','RatecodeID','rate_code_name']]
 
-    payment_type_name = {
-        1:"Credit card",
-        2:"Cash",
-        3:"No charge",
-        4:"Dispute",
-        5:"Unknown",
-        6:"Voided trip"
-    }
+    payment_type_name = {1:"Credit card",2:"Cash",3:"No charge",4:"Dispute",5:"Unknown",6:"Voided trip"}
     payment_type_dim = df[['payment_type']].reset_index(drop=True)
     payment_type_dim['payment_type_id'] = payment_type_dim.index
     payment_type_dim['payment_type_name'] = payment_type_dim['payment_type'].map(payment_type_name)
     payment_type_dim = payment_type_dim[['payment_type','payment_type_id','payment_type_name']]
 
-    fact_table = df.merge(passenger_count_dim, left_on='trip_id', right_on='passenger_count_id') \
-                .merge(trip_distance_dim, left_on='trip_id', right_on='trip_distance_id') \
+    fact_table = df.merge(passenger_count_dim, left_on='trip_id', right_on='passenger_count_id').merge(trip_distance_dim, left_on='trip_id', right_on='trip_distance_id') \
                 .merge(rate_code_dim, left_on='trip_id', right_on='rate_code_id') \
                 .merge(pickup_location_dim, left_on='trip_id', right_on='pickup_location_id') \
                 .merge(dropoff_location_dim, left_on='trip_id', right_on='dropoff_location_id')\
