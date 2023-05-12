@@ -58,14 +58,7 @@ def transform(df, *args, **kwargs):
     dropoff_location_dim['dropoff_location_id'] = dropoff_location_dim.index
     dropoff_location_dim = dropoff_location_dim[['dropoff_location_id','dropoff_longitude','dropoff_latitude']]
 
-    rate_code_type = {
-        1:"Standard rate",
-        2:"JFK",
-        3:"Newark",
-        4:"Nassau or Westchester",
-        5:"Negotiated fare",
-        6:"Group ride"
-    }
+    rate_code_type = {1:"Standard rate",2:"JFK",3:"Newark",4:"Nassau or Westchester",5:"Negotiated fare",6:"Group ride"}
     rate_code_dim = df[['RatecodeID']].reset_index(drop=True)
     rate_code_dim['rate_code_id'] = rate_code_dim.index
     rate_code_dim['rate_code_name'] = rate_code_dim['RatecodeID'].map(rate_code_type)
